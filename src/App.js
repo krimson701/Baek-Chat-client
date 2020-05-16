@@ -6,6 +6,8 @@ import Fetch from "json-fetch";
 import { TalkBox } from "react-talk";
 import randomstring from"randomstring";
 
+// 뭐좀 돼봐라
+
 class App extends React.Component {
  
   constructor(props) {
