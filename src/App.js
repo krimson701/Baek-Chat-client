@@ -45,20 +45,20 @@ class App extends React.Component {
 
   componentWillMount() {
     console.log("call history");
-    Fetch("http://ec2-18-213-155-163.compute-1.amazonaws.com:9090/history/"+this.channelNo , {
+    Fetch("http://localhost:9090/history/"+this.channelNo , {
       method: "GET"
     }).then((response) => {
       response.body.forEach(element => {
         element.author=element.userNo;  // 추후 서버에서 userNo으로 userName을 찾아서 같이 내려올예정 (몽고db에 같이넣을까 체크해바야함)
       });
-      this.setState({ messages: response.body });
+      this.setState({ messages: response.body.reverse() });
       console.log(response.body)
       
     });
   }
 
   render() {
-    const wsSourceUrl = "http://ec2-18-213-155-163.compute-1.amazonaws.com:9090/chatting";
+    const wsSourceUrl = "http://localhost:9090/chatting";
     return (
       <div>
         <TalkBox topic={"/topic/public/"+this.channelNo} currentUserId={ this.randomUserId }
