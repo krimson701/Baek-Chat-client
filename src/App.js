@@ -42,10 +42,10 @@ class App extends React.Component {
       return false;
     }
   }
-
+  
   componentWillMount() {
     console.log("call history");
-    Fetch("http://localhost:9090/history/"+this.channelNo , {
+    Fetch("http://ec2-18-213-155-163.compute-1.amazonaws.com:9090/history/"+this.channelNo , {
       method: "GET"
     }).then((response) => {
       response.body.forEach(element => {
@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 
   render() {
-    const wsSourceUrl = "http://localhost:9090/chatting";
+    const wsSourceUrl = "http://ec2-18-213-155-163.compute-1.amazonaws.com:9090/chatting";
     return (
       <div>
         <TalkBox topic={"/topic/public/"+this.channelNo} currentUserId={ this.randomUserId }
