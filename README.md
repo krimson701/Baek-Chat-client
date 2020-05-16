@@ -1,5 +1,5 @@
 # Baek-Chat-Client
-지리고 오지는 재훈이와 우찬이의 백준 
+지리고 오지는 재훈이와 우찬이의 백준 메신저
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
