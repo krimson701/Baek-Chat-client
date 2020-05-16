@@ -3,7 +3,7 @@ import axios from 'axios';
 export async function signIn({userId}) { 
 
     const user = await axios.get(
-            'http://localhost:8080/user/get', {
+            'http://ec2-18-213-155-163.compute-1.amazonaws.com:9090', {
             params: { userId: userId }
         }).catch(function (error) {
             if (error.response) {
@@ -23,9 +23,6 @@ export async function signIn({userId}) {
               console.log('Error', error.message);
             }
         })
-    console.log("이제서야 디비조회 끝남");
-    console.log("Id : "+ userId);
-    console.log(user.data);
     if (user == "") throw new Error()
     return user.data
     
