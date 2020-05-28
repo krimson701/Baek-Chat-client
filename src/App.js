@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios';
-import { GoogleLogin } from 'react-google-login';
+import UnauthorizedRoutes from './routes/unauthorized-routes';
+import AuthorizedRoutes from './routes/authorized-routes';
+import styled from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
 
 /**
  *  재훈
@@ -12,60 +14,39 @@ import { GoogleLogin } from 'react-google-login';
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    // randomUserId is used to emulate a unique user id for this demo usage
-    this.UserName = "";
-    this.UserEmail = "";
-    this.UserHobby = "";
-    this.state = {
-      accessToken : ""
-    };
-  }
-  //함수
-responseGoogle = (response) => {
-  console.log(response);
-  const headers = {
-    'Content-Type': 'application/json;charset=UTF-8',
-    'Authorization': response.accessToken
-  }
-  console.log(response.accessToken);
-  axios.post(
-    'http://localhost:9090/login/signIn',"data", {
-      headers: headers
-    }).then(response => {
-      this.setState({accessToken : response.accessToken })
-    });
-};
-
-responsefail = () => {
-alert("로그인 실패");
-};
-
-//태그
-
   render() {
-    return(
-      <div>
-      <GoogleLogin
-        clientId="93172012175-1us86pmqgilm2kg38knddg8g72d3jari.apps.googleusercontent.com"
-        render={(renderProps) => (
-          <button
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Google로 LogIn
-          </button>
-        )}
-        onSuccess={this.responseGoogle}
-        onFailure={this.responsefail}
-        cookiePolicy={"single_host_origin"}
-        isSignedIn={true} 
-      />
-      </div>
+    console.log("플래그 값좀 보자:");
+    
+    console.log(this.props.store.getState().userReducer.flag);
+    // 인증 실패
+    if (!(this.props.store.getState().userReducer.flag === "login")) {
+      return <UnauthorizedRoutes store={this.props.store} />;
+    }
+
+    // 인증 성공
+    return (
+      <>
+        <RootContainer>
+          <Main>
+            <div>
+              <AuthorizedRoutes store={this.props.store} />
+            </div>
+          </Main>
+        </RootContainer>
+      </>
     );
   }
 }
+
+const RootContainer = styled.div`
+  display: flex;
+`;
+
+const Main = styled.main`
+  flex: 1 0 auto;
+  width: calc(100vw - 200px);
+  height: 100%;
+`;
 
 
 export default App;
