@@ -5,10 +5,10 @@ import Login from '../containers/login/login';
 
 const UnauthorizedRoutes = () => (
   <BrowserRouter>
-  <Switch>
-    <Route exact={true} path="/login" component={Login} />
-    <Redirect to="/login" />
-  </Switch>
+    <Switch>
+      <Route exact={true} path="/login" component={Login} />
+      <Redirect to="/channel" />
+    </Switch>
   </BrowserRouter>
 );
 

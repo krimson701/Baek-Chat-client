@@ -3,12 +3,8 @@ import axios from 'axios';
 import { RegularCard } from '../../components/cards/regular-card';
 import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
-import { login, logout, authFail } from '../../actions';
-import { createStore } from 'redux';
-import loginApp from '../../reducers';
-const store = createStore(loginApp);
-console.log("store 값은?");
-console.log(store);
+import { connect, bindActionCreators } from 'react-redux';
+import * as actions from '../../actions'
 
 /**
  *  로그인 컨테이너
@@ -25,29 +21,29 @@ class Login extends PureComponent {
     //함수
     responseGoogle = (response) => {
         console.log(response);
+        const token = response.accessToken;
         const headers = {
             'Content-Type': 'application/json;charset=UTF-8',
             'Authorization': response.accessToken
         }
-        console.log(response.accessToken);
+        console.log(token);
         axios.post(
             'http://localhost:9090/login/signIn', "data", {
             headers: headers
         }).then(response => {
             console.log("success");
-            console.log(store);
+            console.log(this.props.store);
             
-            store.dispatch(login())
-            localStorage.setItem( "Authorization", response.accessToken )
-
-
+            this.props.handleLogin();
+            localStorage.setItem( "Authorization", token )
             console.log("플래그 값좀 보자:");
-
-            console.log(store.getState().userReducer.flag);
+            
+            this.props.history.push('/channel');
+            
         }).catch(() => {
             console.log("failed");
             // If request is bad show an error to the user
-            store.dispatch(authFail())
+            this.props.handleAuthfail();
             localStorage.clear()
         });
     };
@@ -87,4 +83,18 @@ class Login extends PureComponent {
     }
 }
 
-export default Login
+const mapStateToProp = (state) => {
+    return {
+      flag: state.userReducer.flag
+    };
+  }
+
+const mapDispatchToProp = (dispatch) => {
+    return {
+        handleLogin: () => {dispatch(actions.login())},
+        handleLogout: () => {dispatch(actions.logout())},
+        handleAuthfail: () => {dispatch(actions.authFail())}
+    };
+}
+
+export default connect(mapStateToProp, mapDispatchToProp)(Login);

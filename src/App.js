@@ -3,7 +3,8 @@ import './App.css';
 import UnauthorizedRoutes from './routes/unauthorized-routes';
 import AuthorizedRoutes from './routes/authorized-routes';
 import styled from 'styled-components';
-import { BrowserRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 
 /**
  *  재훈
@@ -14,13 +15,16 @@ import { BrowserRouter } from 'react-router-dom';
 
 class App extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    console.log("플래그 값좀 보자:");
+    console.log("스토어 테스트"+this.props.flag);
     
-    console.log(this.props.store.getState().userReducer.flag);
     // 인증 실패
-    if (!(this.props.store.getState().userReducer.flag === "login")) {
-      return <UnauthorizedRoutes store={this.props.store} />;
+    if (!(this.props.flag === "login")) {
+      return <UnauthorizedRoutes/>
     }
 
     // 인증 성공
@@ -29,7 +33,7 @@ class App extends React.Component {
         <RootContainer>
           <Main>
             <div>
-              <AuthorizedRoutes store={this.props.store} />
+              <AuthorizedRoutes />
             </div>
           </Main>
         </RootContainer>
@@ -47,6 +51,10 @@ const Main = styled.main`
   width: calc(100vw - 200px);
   height: 100%;
 `;
+const mapStateToProp = (state) => {
+  return {
+    flag: state.userReducer.flag
+  };
+}
 
-
-export default App;
+export default connect(mapStateToProp)(App);

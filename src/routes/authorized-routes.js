@@ -6,10 +6,10 @@ import Chatroom from '../containers/chatroom/chatroom';
 const AuthorizedRoutes = () => (
   <BrowserRouter>
     <Switch>
-      <Route path={`/channel/:channelNo`} component={Chatroom} />
-      <Redirect to="/" />
+      <Route exact={true} path="/channel" component={Chatroom} />
+      <Redirect to="/channel" />
     </Switch>
   </BrowserRouter>
-  );
+);
 
-  export default AuthorizedRoutes;
+export default AuthorizedRoutes;
