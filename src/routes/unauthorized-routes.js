@@ -7,7 +7,7 @@ const UnauthorizedRoutes = () => (
   <BrowserRouter>
     <Switch>
       <Route exact={true} path="/login" component={Login} />
-      <Redirect to="/channel" />
+      <Redirect to="/login" />
     </Switch>
   </BrowserRouter>
 );

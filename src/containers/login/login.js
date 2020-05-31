@@ -5,6 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
 import { connect, bindActionCreators } from 'react-redux';
 import * as actions from '../../actions'
+import { WebServerConstant } from '../../constants';
 
 /**
  *  로그인 컨테이너
@@ -28,19 +29,20 @@ class Login extends PureComponent {
         }
         console.log(token);
         axios.post(
-            'http://localhost:9090/login/signIn', "data", {
+            WebServerConstant.Server.API_HOST + '/login/signIn', "data", {
             headers: headers
         }).then(response => {
-            console.log("success");
-            console.log(this.props.store);
+            console.log(response);
+            let userInfo = response.data;
             
-            this.props.handleLogin();
+            console.log("success");
+            this.props.handleLogin(userInfo);
             localStorage.setItem( "Authorization", token )
             console.log("플래그 값좀 보자:");
             
             this.props.history.push('/channel');
             
-        }).catch(() => {
+        }).catch(error => {
             console.log("failed");
             // If request is bad show an error to the user
             this.props.handleAuthfail();
@@ -63,7 +65,7 @@ class Login extends PureComponent {
             >
                 <Button>
                     <GoogleLogin
-                        clientId="93172012175-1us86pmqgilm2kg38knddg8g72d3jari.apps.googleusercontent.com"
+                        clientId={WebServerConstant.GOOGLE_CLIENT_ID}
                         render={(renderProps) => (
                             <button
                                 onClick={renderProps.onClick}
@@ -91,7 +93,7 @@ const mapStateToProp = (state) => {
 
 const mapDispatchToProp = (dispatch) => {
     return {
-        handleLogin: () => {dispatch(actions.login())},
+        handleLogin: (userInfo) => {dispatch(actions.login(userInfo))},
         handleLogout: () => {dispatch(actions.logout())},
         handleAuthfail: () => {dispatch(actions.authFail())}
     };

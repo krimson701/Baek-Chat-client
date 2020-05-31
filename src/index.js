@@ -5,13 +5,14 @@ import App from './App';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux';
 import loginApp from './reducers';
+import { BrowserRouter } from 'react-router-dom';
 const store = createStore(loginApp);
-console.log("store 값은?");
-console.log(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

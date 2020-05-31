@@ -4,7 +4,7 @@ import UnauthorizedRoutes from './routes/unauthorized-routes';
 import AuthorizedRoutes from './routes/authorized-routes';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-
+import Navbar from './components/navbar';
 
 /**
  *  재훈
@@ -31,6 +31,7 @@ class App extends React.Component {
     return (
       <>
         <RootContainer>
+          <Navbar />
           <Main>
             <div>
               <AuthorizedRoutes />

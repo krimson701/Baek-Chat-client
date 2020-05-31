@@ -2,9 +2,10 @@ export const LOGIN = 'login';
 export const LOGOUT = 'logout';
 export const AUTH_FAIL = 'auth_fail';
 
-export function login(){
+export function login(userInfo){
     return{
-        type: LOGIN
+        type: LOGIN,
+        userInfo : userInfo
     }
 }
 

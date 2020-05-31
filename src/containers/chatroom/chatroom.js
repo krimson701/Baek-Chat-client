@@ -1,27 +1,30 @@
 import React from 'react';
 import SockJsClient from "react-stomp";
-import UsernameGenerator from "username-generator";
-import Fetch from "json-fetch";
 import { TalkBox } from "react-talk";
-import randomstring from"randomstring";
+import axios from 'axios';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { WebServerConstant } from '../../constants';
 
 class Chatroom extends React.Component {
  
   constructor(props) {
+    
     super(props);
     // randomUserId is used to emulate a unique user id for this demo usage
-    this.randomUserName = UsernameGenerator.generateUsername("-");
-    this.randomUserId = randomstring.generate();
+    this.userName = this.props.userInfo.email;
+    this.userId = parseInt(this.props.userInfo.id);
     this.channelNo = 1;
     this.sendURL = "/message";
     this.state = {
       clientConnected : false,
       messages : []
     };
-    
   }
 
   onMessageReceive = (msg, topic) => {
+    msg.author = msg.userNo;
+    
     //alert(JSON.stringify(msg) + " @ " +  JSON.stringify(this.state.messages)+" @ " + JSON.stringify(topic));
     this.setState(prevState => ({
       messages: [...prevState.messages, msg]
@@ -31,37 +34,46 @@ class Chatroom extends React.Component {
   sendMessage = (msg, selfMsg) => {
     try {
       var send_message = {
-        "user" : selfMsg.author,
-        "message" : selfMsg.message,
-        "channelNo" : this.channelNo
+        "userNo": this.userId,
+        "userEmail": this.userEmail,
+        "message": selfMsg.message,
+        "channelNo": this.channelNo
       }
       this.clientRef.sendMessage("/app/message", JSON.stringify(send_message));
       return true;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }
-  
-  componentWillMount() {
+
+  componentDidMount() {
     console.log("call history");
-    Fetch("http://ec2-18-213-155-163.compute-1.amazonaws.com:9090/messenger/history/"+this.channelNo , {
-      method: "GET"
+    const token = localStorage.getItem("Authorization")
+    const headers = {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': token
+    }
+    
+    axios.get(
+      WebServerConstant.Server.API_HOST + "/messenger/history/" + this.channelNo, {
+      headers: headers
     }).then((response) => {
-      response.body.forEach(element => {
-        element.author=element.userNo;  // 추후 서버에서 userNo으로 userName을 찾아서 같이 내려올예정 (몽고db에 같이넣을까 체크해바야함)
-      });
-      this.setState({ messages: response.body.reverse() });
-      console.log(response.body)
+      console.log(response);
       
+      response.data.forEach(element => {
+        element.author = element.userNo;  // 추후 서버에서 userNo으로 userName을 찾아서 같이 내려올예정 (몽고db에 같이넣을까 체크해바야함)
+      });
+      this.setState({ messages: response.data.reverse() });
     });
   }
 
   render() {
-    const wsSourceUrl = "http://ec2-18-213-155-163.compute-1.amazonaws.com:9090/chatting";
+    const wsSourceUrl = WebServerConstant.Server.API_HOST + "/chatting";
     return (
-      <div>
-        <TalkBox topic={"/topic/public/"+this.channelNo} currentUserId={ this.randomUserId }
-          currentUser={ this.randomUserName } messages={ this.state.messages }
+      <>
+        <TalkBox style={{width: "100%", height: "100%"}} 
+          topic={"/topic/public/"+this.channelNo} currentUserId={ this.userId }
+          currentUser={ this.userName } messages={ this.state.messages }
           onSendMessage={ this.sendMessage } connected={ this.state.clientConnected }/>
         
         <SockJsClient url={ wsSourceUrl } topics={["/topic/public/"+this.channelNo]}
@@ -69,9 +81,15 @@ class Chatroom extends React.Component {
           onConnect={ () => {this.setState({ clientConnected: true }) } }
           onDisconnect={ () => { this.setState({ clientConnected: false }) } }
           debug={ false } style={[{width:'100%', height:'100%'}]}/>
-      </div>
+      </>
     );
   }
 }
 
-export default Chatroom;
+const mapStateToProp = (state) => {
+  return {
+    userInfo: state.userReducer.userInfo
+  };
+}
+
+export default connect(mapStateToProp)(Chatroom);

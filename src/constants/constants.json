@@ -1,0 +1,8 @@
+{
+    "WebServerConstant": {
+        "Server": {
+            "API_HOST": "http://localhost:9090"
+          },
+        "GOOGLE_CLIENT_ID": "93172012175-1us86pmqgilm2kg38knddg8g72d3jari.apps.googleusercontent.com"
+    }
+}
