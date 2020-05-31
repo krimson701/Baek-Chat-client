@@ -11,5 +11,4 @@ const AuthorizedRoutes = () => (
     </Switch>
   </BrowserRouter>
 );
-
 export default AuthorizedRoutes;

@@ -10,15 +10,14 @@ import { WebServerConstant } from '../constants';
 const MenuItems = ({ items, kind }) => {
 
     if (!kind) return <></>;
-
+    
     return (
         <>
             {items.content.map(item => {
                 if (item.visible) {
                     return (<NavItem key={item.to} to={`/channel/${item.to}`}>{item.text}</NavItem>);
                 }
-            })
-            }
+            })}
         </>
     );
 };
@@ -27,16 +26,18 @@ class NavBar extends PureComponent {
     constructor(props) {
         super(props);
         this.channelList = [];
-        this.navItems = {
-            class: {
-                open: true,
-                content:
-                    [{ to: "temp", text: "추후에 추가할 것이므로 임시로 비워놨습니다.", visible: true }]
-            },
-            private: {
-                open: true,
-                content:
-                    [{ to: "electron", text: "데스크탑 앱 관리", visible: true }]
+        this.state = {
+            navItems: {
+                class: {
+                    open: true,
+                    content:
+                        [{ to: "temp", text: "추후에 추가할 것이므로 임시로 비워놨습니다.", visible: true }]
+                },
+                private: {
+                    open: true,
+                    content:
+                        [{ to: "electron", text: "데스크탑 앱 관리", visible: true }]
+                }
             }
         };
         this.openClass = true;
@@ -51,8 +52,22 @@ class NavBar extends PureComponent {
     getChannelList = async () => {
         try {
             const list = await getChannelList();
-            console.log("채널리스트");
-            console.log(list);
+            for(var i in list) {
+
+                this.setState({
+                    navItems: {
+                        ...this.state.navItems,
+                        private: {
+                            open: true,
+                            content: this.state.navItems.private.content.concat({
+                                to: String(list[i].channelNo), text: "채널번호 " + list[i].channelNo, visible: true
+                            })
+                        }
+                    }
+                });
+                console.log("state");
+                console.log(this.state);
+            }
             
         } catch (e) {
             console.log(e);
@@ -68,16 +83,16 @@ class NavBar extends PureComponent {
             this.setOpenPrivate(!this.openPrivate);
         }
     };
-    render(){
+    render() {
         return (
             <NavContainer>
                 <Navigation>
                     <div>
                         <ToggleButton id="class" onClick={this.handleToggle}>강의방</ToggleButton>
-                        <MenuItems key="class" items={this.navItems.class} kind={this.openClass} />
+                        <MenuItems key="class" items={this.state.navItems.class} kind={this.openClass} />
 
                         <ToggleButton id="private" onClick={this.handleToggle}>사설방</ToggleButton>
-                        <MenuItems key="private" items={this.navItems.private} kind={this.openPrivate} />
+                        <MenuItems key="private" items={this.state.navItems.private} kind={this.openPrivate} />
                     </div>
                 </Navigation>
             </NavContainer>

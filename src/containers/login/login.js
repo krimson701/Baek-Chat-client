@@ -25,21 +25,16 @@ class Login extends PureComponent {
         const token = response.accessToken;
         const headers = {
             'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': response.accessToken
+            'Authorization': token
         }
-        console.log(token);
         axios.post(
             WebServerConstant.Server.API_HOST + '/login/signIn', "data", {
             headers: headers
         }).then(response => {
             console.log(response);
             let userInfo = response.data;
-            
-            console.log("success");
             this.props.handleLogin(userInfo);
             localStorage.setItem( "Authorization", token )
-            console.log("플래그 값좀 보자:");
-            
             this.props.history.push('/channel');
             
         }).catch(error => {
@@ -63,23 +58,21 @@ class Login extends PureComponent {
                 cardSubtitle="서비스 이용을 위해 로그인하세요"
                 style={{ border: '1px solid #ddd' }}
             >
-                <Button>
-                    <GoogleLogin
-                        clientId={WebServerConstant.GOOGLE_CLIENT_ID}
-                        render={(renderProps) => (
-                            <button
-                                onClick={renderProps.onClick}
-                                disabled={renderProps.disabled}
-                            >
-                                Google로 LogIn
-                            </button>
-                        )}
-                        onSuccess={this.responseGoogle}
-                        onFailure={this.responsefail}
-                        cookiePolicy={"single_host_origin"}
-                        isSignedIn={true}
-                    />
-                </Button>
+                <GoogleLogin
+                    clientId={WebServerConstant.GOOGLE_CLIENT_ID}
+                    render={(renderProps) => (
+                        <button
+                            onClick={renderProps.onClick}
+                            disabled={renderProps.disabled}
+                        >
+                            Google로 LogIn
+                        </button>
+                    )}
+                    onSuccess={this.responseGoogle}
+                    onFailure={this.responsefail}
+                    cookiePolicy={"single_host_origin"}
+                    isSignedIn={true}
+                />
             </RegularCard>
         );
     }
