@@ -9,12 +9,13 @@ import { WebServerConstant } from '../../constants';
 class Chatroom extends React.Component {
  
   constructor(props) {
+    console.log("생성자 발동");
     
     super(props);
     // randomUserId is used to emulate a unique user id for this demo usage
     this.userName = this.props.userInfo.email;
     this.userId = parseInt(this.props.userInfo.id);
-    this.channelNo = 1;
+    this.channelNo = this.props.match.params.channelNo;
     this.sendURL = "/message";
     this.state = {
       clientConnected : false,
@@ -47,6 +48,8 @@ class Chatroom extends React.Component {
   }
 
   componentDidMount() {
+    console.log("param check");
+    console.log(this.channelNo);
     console.log("call history");
     const token = localStorage.getItem("Authorization")
     const headers = {

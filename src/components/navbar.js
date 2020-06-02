@@ -44,14 +44,24 @@ class NavBar extends PureComponent {
         this.openPrivate = true;
     }
 
+    setOpenPrivate = (state) => {
+        this.openPrivate = state;
+    }
+    setOpenClass = (state) => {
+        this.openClass = state;
+    }
+
     componentDidMount() {
-        
+
         this.getChannelList();
-      }
+    }
     
     getChannelList = async () => {
         try {
             const list = await getChannelList();
+            console.log("채팅방 리스트");
+            console.log(list);
+            
             for(var i in list) {
 
                 this.setState({
