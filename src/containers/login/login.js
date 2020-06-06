@@ -23,10 +23,11 @@ class Login extends PureComponent {
 
     responseGoogle = async (response) => {
         console.log(response);
-        localStorage.setItem( "Authorization", response.accessToken );
+        localStorage.setItem("Authorization", response.accessToken );
         try {
             const userInfo = await signIn();
             console.log(userInfo);
+            localStorage.setItem("UserInfo", userInfo);
 
             this.props.handleLogin(userInfo);
             this.props.history.push('/channel');

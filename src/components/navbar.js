@@ -1,10 +1,12 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useState  } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import InviteModal from '../containers/invite/invite-modal'
 import {
     getChannelList
 } from '../apis/chatting';
+
 
 const MenuItems = ({ items, kind }) => {
 
@@ -96,6 +98,7 @@ class NavBar extends PureComponent {
             <NavContainer>
                 <Navigation>
                     <div>
+                        <InviteModal />
                         <ToggleButton id="class" onClick={this.handleToggle}>강의방</ToggleButton>
                         <MenuItems key="class" items={this.state.navItems.class} kind={this.openClass} />
 
