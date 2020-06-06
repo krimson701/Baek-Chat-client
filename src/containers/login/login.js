@@ -1,9 +1,10 @@
 import React, { PureComponent, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
 import { RegularCard } from '../../components/cards/regular-card';
 import { GoogleLogin } from 'react-google-login';
-import { Button } from '@material-ui/core';
-import { connect, bindActionCreators } from 'react-redux';
+import {
+    signIn
+} from '../../apis/login';
+import { connect} from 'react-redux';
 import * as actions from '../../actions'
 import { WebServerConstant } from '../../constants';
 
@@ -15,41 +16,33 @@ class Login extends PureComponent {
 
     constructor(props) {
         super(props);
-        // randomUserId is used to emulate a unique user id for this demo usage
         this.responseGoogle = this.responseGoogle.bind(this)
         this.responsefail = this.responsefail.bind(this)
     }
-    //함수
-    responseGoogle = (response) => {
+    
+
+    responseGoogle = async (response) => {
         console.log(response);
-        const token = response.accessToken;
-        const headers = {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Authorization': token
-        }
-        axios.post(
-            WebServerConstant.Server.API_HOST + '/login/signIn', "data", {
-            headers: headers
-        }).then(response => {
-            console.log(response);
-            let userInfo = response.data;
+        localStorage.setItem( "Authorization", response.accessToken );
+        try {
+            const userInfo = await signIn();
+            console.log(userInfo);
+
             this.props.handleLogin(userInfo);
-            localStorage.setItem( "Authorization", token )
             this.props.history.push('/channel');
+        } catch (e){
+            console.log(e);
             
-        }).catch(error => {
             console.log("failed");
-            // If request is bad show an error to the user
+            // Bad request시 타게됨, 체크 필요함
             this.props.handleAuthfail();
             localStorage.clear()
-        });
+        }
     };
 
     responsefail = () => {
         alert("로그인 실패");
     };
-
-    //태그
 
     render() {
         return (

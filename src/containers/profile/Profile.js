@@ -1,5 +1,9 @@
 import React from "react"
 
+/**
+ * 임시 테스트용 profile 컨테이너
+ * @param  param0 
+ */
 function Profile({ user }) {
     console.log("이거는 profile");
     

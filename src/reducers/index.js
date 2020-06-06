@@ -5,6 +5,9 @@ const initialState = {
     flag: 'logout',
 };
 
+/**
+ * 다른 리듀서 추가되면 전부 import 해서 combine 코드만 남기기
+ */
 const userReducer = (state = initialState, action) => {
 
     

@@ -21,8 +21,8 @@ clientApi.interceptors.request.use(
     function (config) {
         const { url = '', data } = config;
         // 요청 바로 직전
-        // axios 설정값에 대해 작성합니다.
-        config.headers = { ["Authorization"]: localStorage.getItem("Authorization") };
+        // axios 설정값에 대해 작성
+        config.headers = { ["Authorization"]: localStorage.getItem("Authorization") };  // 헤더 값으로 bearer 추후 추가해줘야함
 
         if ('showNetworkStatus' in window || 'showNetworkRequest' in window) {
             console.groupCollapsed(
@@ -41,10 +41,11 @@ clientApi.interceptors.request.use(
         return config;
     }, 
     function (error) {
-        // 요청 에러 처리를 작성합니다.
+        // 요청 에러 처리
         return Promise.reject(error);
     }
 );
+
 
 
 
@@ -54,13 +55,14 @@ clientApi.interceptors.request.use(
 
     1) 응답 정성 - 인자값: http response
     2) 응답 에러 - 인자값: http error
+
+    아직은 응답 인터셉터 구상없으므로 예제만 추가
 */
 clientApi.interceptors.response.use(
     function (response) {
     /*
         http status가 200인 경우
-        응답 바로 직전에 대해 작성합니다. 
-        .then() 으로 이어집니다.
+        응답 바로 직전에 대해 작성
     */
 
         return response;
@@ -69,8 +71,9 @@ clientApi.interceptors.response.use(
     function (error) {
         /*
             http status가 200이 아닌 경우
-            응답 에러 처리를 작성합니다.
-            .catch() 으로 이어집니다.    
+            응답 에러 처리를 작성
+
+            타입 스크립트 사용할때 수정 예정
         */
         if (error.response && error.response.config) {
             const { url, data } = error.response.config;
@@ -92,5 +95,4 @@ clientApi.interceptors.response.use(
     }
 );
 
-// 생성한 인스턴스를 익스포트 합니다.
 export default clientApi;

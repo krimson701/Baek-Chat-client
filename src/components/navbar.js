@@ -1,11 +1,10 @@
-import React, { FC, useState, MouseEvent, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import {
     getChannelList
 } from '../apis/chatting';
-import { WebServerConstant } from '../constants';
 
 const MenuItems = ({ items, kind }) => {
 
@@ -59,8 +58,6 @@ class NavBar extends PureComponent {
     getChannelList = async () => {
         try {
             const list = await getChannelList();
-            console.log("채팅방 리스트");
-            console.log(list);
             
             for(var i in list) {
 
@@ -75,15 +72,16 @@ class NavBar extends PureComponent {
                         }
                     }
                 });
-                console.log("state");
-                console.log(this.state);
             }
             
         } catch (e) {
             console.log(e);
         }
     }
-
+    
+    /**
+     * 탭 클릭시 오류
+     */
     handleToggle = (e) => {
         const id = e.target.id;
 
@@ -110,6 +108,10 @@ class NavBar extends PureComponent {
     }
 };
 
+/**
+ * 추후 매핑으로 userinfo 추가 예정
+ * @param  param0 
+ */
 const mapStateToProps = ({ user }) => {
     return {
         user,
