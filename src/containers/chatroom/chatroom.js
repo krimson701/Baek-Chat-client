@@ -32,6 +32,7 @@ class Chatroom extends React.Component {
     console.log("componentWillReceiveProps");
     if(this.props.match.params.channelNo !== nextProps.match.params.channelNo){
       const currentChannelNo = nextProps.match.params.channelNo;
+      localStorage.setItem("channelNo",currentChannelNo);
       this.setState({ channelNo: currentChannelNo },
         () => this.callHistory()) ;
     }

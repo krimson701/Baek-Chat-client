@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import InviteModal from '../containers/invite/invite-modal'
+import FriendModal from '../containers/friend/friend-modal'
 import {
     getChannelList
 } from '../apis/chatting';
@@ -55,6 +56,10 @@ class NavBar extends PureComponent {
     componentDidMount() {
 
         this.getChannelList();
+        console.log("채널 리스트");
+        console.log(this.channelList);
+        
+        
     }
     
     getChannelList = async () => {
@@ -98,6 +103,7 @@ class NavBar extends PureComponent {
             <NavContainer>
                 <Navigation>
                     <div>
+                        <FriendModal />
                         <InviteModal />
                         <ToggleButton id="class" onClick={this.handleToggle}>강의방</ToggleButton>
                         <MenuItems key="class" items={this.state.navItems.class} kind={this.openClass} />

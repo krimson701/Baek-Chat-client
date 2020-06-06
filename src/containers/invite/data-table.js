@@ -9,7 +9,9 @@ import {
 import {
     getRelations
 } from '../../apis/relation';
-
+import {
+    inviteChannel
+} from '../../apis/chatting';
 
 function DataTable({
     usePaging,
@@ -17,19 +19,39 @@ function DataTable({
     pageScale,
     totalCount,
 }) {
-    // const [selecteds, setSelecteds] = useState([]);
     
-    // const addSelected = (added) => {
-    //     setSelecteds([
-    //       ...selecteds,
-    //       {
-    //         id: items.length,
-    //         value: Math.random() * 100
-    //       }
-    //     ]);
-    //   };
 
     const [friends, setFriends] = useState([]);
+
+
+    /**
+     * 파라미터 담을때 channelNo를 
+     * 현재는 로컬스토리지에저장하고 뽑아오는데
+     * channelNo를 리스트에서 선택할수있도록하는 것이 최선인것같다
+     * 이부분에 대해선 건회와 얘기를 해보자
+     * @param {*} params 
+     */
+    const inviteUsers = async(userNo) => {
+        try {
+            if (!window.confirm("정말 채널로 초대 하시겠습니까?")) {
+                return;
+            }
+            const userNos = [userNo];
+            const params = {
+                channelNo: parseInt(localStorage.getItem("channelNo")),
+                invitedNos: userNos
+            }
+            console.log("params");
+            
+            console.log(params);
+            
+            const data = await inviteChannel(params);
+            console.log(data);
+            
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     const getFriendList = async() => { 
         try {
@@ -40,20 +62,13 @@ function DataTable({
             });
 
             setFriends(list);
-            console.log("친구들");
-            console.log(friends);
         } catch (e) {
             console.log(e);
         }
     }
 
-    const fetchDetails = (c) => {
-        console.log(c);
-    }
-
     useEffect(() => {
         getFriendList();
-        console.log('component did mount with useEffect!')
     }, []);
 
     return(
@@ -62,7 +77,7 @@ function DataTable({
                 <TableBody>
                     {friends.map(c => {
                         return (
-                            <TableRow onClick={() => fetchDetails(c)}>
+                            <TableRow onClick={() => inviteUsers(c.id)}>
                                 <TableCell>
                                     <Button>{c.email}</Button>
                                 </TableCell>

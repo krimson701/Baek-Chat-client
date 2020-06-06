@@ -1,7 +1,7 @@
 {
     "WebServerConstant": {
         "Server": {
-            "API_HOST": "http://ec2-18-213-155-163.compute-1.amazonaws.com:9090"
+            "API_HOST": "http://localhost:9090"
           },
         "GOOGLE_CLIENT_ID": "93172012175-1us86pmqgilm2kg38knddg8g72d3jari.apps.googleusercontent.com"
     }
