@@ -39,16 +39,13 @@ function DataTable({
             const userNos = [userNo];
             const params = {
                 channelNo: parseInt(localStorage.getItem("channelNo")),
-                invitedNos: userNos
+                users: userNos.toString()
             }
-            console.log("params");
-            
-            console.log(params);
-            
             const data = await inviteChannel(params);
-            console.log(data);
+            alert("초대를 완료했습니다.");
             
         } catch (e) {
+            alert("초대를 실패했습니다!!");
             console.log(e);
         }
     }
