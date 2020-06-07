@@ -145,13 +145,13 @@ const NavContainer = styled.nav`
 `;
 
 const Navigation = styled.div`
-  margin-top: 60px;
+  margin-top: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 0 20px 8px;
-  height: 100vh;
+  height: 90vh;
   overflow-x: hidden;
   ::placeholder {
     color: #b1b1b1;

@@ -21,7 +21,7 @@ function DataTable({
 }) {
     
 
-    const [friends, setFriends] = useState([]);
+    const [friends, setFriends] = useState([{email: "Loading..."}]);
 
 
     /**

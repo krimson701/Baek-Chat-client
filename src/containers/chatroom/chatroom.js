@@ -79,7 +79,7 @@ class Chatroom extends React.Component {
     const wsSourceUrl = WebServerConstant.Server.API_HOST + "/chatting";
     return (
       <>
-        <TalkBox style={{ width: "100%", height: "100%" }}
+        <TalkBox style={{ width: "100%", height: "85vh" }}
           currentUserId={this.userId}
           currentUser={this.userName} messages={this.state.messages}
           onSendMessage={this.sendMessage} connected={this.state.clientConnected} />
