@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 import {
     signIn
 } from '../../apis/login';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actions from '../../actions'
 import { WebServerConstant } from '../../constants';
 
