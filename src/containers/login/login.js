@@ -27,7 +27,7 @@ class Login extends PureComponent {
         try {
             const userInfo = await signIn();
             console.log(userInfo);
-            localStorage.setItem("UserInfo", userInfo);
+            localStorage.setItem("UserInfo",  JSON.stringify(userInfo));
 
             this.props.handleLogin(userInfo);
             this.props.history.push('/channel');
