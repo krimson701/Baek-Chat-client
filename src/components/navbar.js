@@ -2,9 +2,13 @@ import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import InviteModal from '../containers/invite/invite-modal'
+import FriendModal from '../containers/friend/friend-modal'
+import * as actions from '../actions'
 import {
     getChannelList
 } from '../apis/chatting';
+
 
 const MenuItems = ({ items, kind }) => {
 
@@ -53,6 +57,10 @@ class NavBar extends PureComponent {
     componentDidMount() {
 
         this.getChannelList();
+        console.log("채널 리스트");
+        console.log(this.channelList);
+        
+        
     }
     
     getChannelList = async () => {
@@ -91,11 +99,23 @@ class NavBar extends PureComponent {
             this.setOpenPrivate(!this.openPrivate);
         }
     };
+
+    /**
+     * 로그아웃
+     */
+    handleOnClick = () => {
+        this.props.handleLogout();
+        localStorage.clear();
+    }
+
     render() {
         return (
             <NavContainer>
                 <Navigation>
                     <div>
+                        <button onClick={this.handleOnClick}>로그아웃</button>
+                        <FriendModal />
+                        <InviteModal />
                         <ToggleButton id="class" onClick={this.handleToggle}>강의방</ToggleButton>
                         <MenuItems key="class" items={this.state.navItems.class} kind={this.openClass} />
 
@@ -118,7 +138,15 @@ const mapStateToProps = ({ user }) => {
     };
 };
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProp = (dispatch) => {
+    return {
+        handleLogin: (userInfo) => {dispatch(actions.login(userInfo))},
+        handleLogout: () => {dispatch(actions.logout())},
+        handleAuthfail: () => {dispatch(actions.authFail())}
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(NavBar);
 
 const NavContainer = styled.nav`
   position: relative;
@@ -136,13 +164,13 @@ const NavContainer = styled.nav`
 `;
 
 const Navigation = styled.div`
-  margin-top: 60px;
+  margin-top: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 0 20px 8px;
-  height: 100vh;
+  height: 90vh;
   overflow-x: hidden;
   ::placeholder {
     color: #b1b1b1;

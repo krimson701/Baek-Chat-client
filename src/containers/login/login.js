@@ -1,10 +1,10 @@
-import React, { PureComponent, ChangeEvent, FormEvent } from 'react';
+import React, { PureComponent } from 'react';
 import { RegularCard } from '../../components/cards/regular-card';
 import { GoogleLogin } from 'react-google-login';
 import {
     signIn
 } from '../../apis/login';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actions from '../../actions'
 import { WebServerConstant } from '../../constants';
 
@@ -23,10 +23,11 @@ class Login extends PureComponent {
 
     responseGoogle = async (response) => {
         console.log(response);
-        localStorage.setItem( "Authorization", response.accessToken );
+        localStorage.setItem("Authorization", response.accessToken );
         try {
             const userInfo = await signIn();
             console.log(userInfo);
+            localStorage.setItem("UserInfo",  JSON.stringify(userInfo));
 
             this.props.handleLogin(userInfo);
             this.props.history.push('/channel');
@@ -40,7 +41,9 @@ class Login extends PureComponent {
         }
     };
 
-    responsefail = () => {
+    responsefail = (e) => {
+        console.log(e);
+        
         alert("로그인 실패");
     };
 
@@ -64,7 +67,7 @@ class Login extends PureComponent {
                     onSuccess={this.responseGoogle}
                     onFailure={this.responsefail}
                     cookiePolicy={"single_host_origin"}
-                    isSignedIn={true}
+                    isSignedIn={false}
                 />
             </RegularCard>
         );
