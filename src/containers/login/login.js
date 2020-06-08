@@ -1,4 +1,4 @@
-import React, { PureComponent, ChangeEvent, FormEvent } from 'react';
+import React, { PureComponent } from 'react';
 import { RegularCard } from '../../components/cards/regular-card';
 import { GoogleLogin } from 'react-google-login';
 import {
@@ -41,7 +41,9 @@ class Login extends PureComponent {
         }
     };
 
-    responsefail = () => {
+    responsefail = (e) => {
+        console.log(e);
+        
         alert("로그인 실패");
     };
 
@@ -65,7 +67,7 @@ class Login extends PureComponent {
                     onSuccess={this.responseGoogle}
                     onFailure={this.responsefail}
                     cookiePolicy={"single_host_origin"}
-                    isSignedIn={true}
+                    isSignedIn={false}
                 />
             </RegularCard>
         );

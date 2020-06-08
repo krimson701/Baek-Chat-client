@@ -1,6 +1,4 @@
-import React, {
-    useCallback,
-} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import BaekInput from '../../components/baek/baek-input'
 

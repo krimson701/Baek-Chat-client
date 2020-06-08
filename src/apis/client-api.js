@@ -75,8 +75,16 @@ clientApi.interceptors.response.use(
 
             타입 스크립트 사용할때 수정 예정
         */
+       
         if (error.response && error.response.config) {
             const { url, data } = error.response.config;
+            
+            if(error.response.status===401){
+                console.log("clientApi 401");
+
+                localStorage.clear();
+                window.location.reload();
+            }
 
             if ('showNetworkStatus' in window || 'showNetworkResponse' in window) {
                 console.groupCollapsed(

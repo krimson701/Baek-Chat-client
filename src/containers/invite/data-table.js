@@ -19,10 +19,8 @@ function DataTable({
     pageScale,
     totalCount,
 }) {
-    
 
     const [friends, setFriends] = useState([{email: "Loading..."}]);
-
 
     /**
      * 파라미터 담을때 channelNo를 

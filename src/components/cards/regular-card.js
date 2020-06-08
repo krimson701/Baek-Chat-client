@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, ReactPropTypes } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader } from '@material-ui/core';
 //import regularCardStyle from 'variables/styles/regularCardStyle';
 

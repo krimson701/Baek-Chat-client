@@ -1,9 +1,10 @@
-import React, { PureComponent, useState  } from 'react';
+import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import InviteModal from '../containers/invite/invite-modal'
 import FriendModal from '../containers/friend/friend-modal'
+import * as actions from '../actions'
 import {
     getChannelList
 } from '../apis/chatting';
@@ -98,11 +99,21 @@ class NavBar extends PureComponent {
             this.setOpenPrivate(!this.openPrivate);
         }
     };
+
+    /**
+     * 로그아웃
+     */
+    handleOnClick = () => {
+        this.props.handleLogout();
+        localStorage.clear();
+    }
+
     render() {
         return (
             <NavContainer>
                 <Navigation>
                     <div>
+                        <button onClick={this.handleOnClick}>로그아웃</button>
                         <FriendModal />
                         <InviteModal />
                         <ToggleButton id="class" onClick={this.handleToggle}>강의방</ToggleButton>
@@ -127,7 +138,15 @@ const mapStateToProps = ({ user }) => {
     };
 };
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProp = (dispatch) => {
+    return {
+        handleLogin: (userInfo) => {dispatch(actions.login(userInfo))},
+        handleLogout: () => {dispatch(actions.logout())},
+        handleAuthfail: () => {dispatch(actions.authFail())}
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(NavBar);
 
 const NavContainer = styled.nav`
   position: relative;

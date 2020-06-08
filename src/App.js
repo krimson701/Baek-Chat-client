@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import UnauthorizedRoutes from './routes/unauthorized-routes';
 import AuthorizedRoutes from './routes/authorized-routes';
@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log("스토어 테스트"+this.props.flag);
+    console.log("스토어 테스트 : "+this.props.flag);
     
     // 인증 실패
     if (!(this.props.flag === "login")) {

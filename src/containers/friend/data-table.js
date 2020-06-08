@@ -5,7 +5,6 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    TableHead,
 } from '@material-ui/core';
 import {
     postRelation
@@ -75,7 +74,6 @@ function DataTable({
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("param");
         userSearch(keyword);
     }
 
