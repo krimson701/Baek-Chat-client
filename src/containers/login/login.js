@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux';
 import * as actions from '../../actions'
 import { WebServerConstant } from '../../constants';
+import AuthorizedRoutes from '../../routes/authorized-routes';
 
 /**
  *  로그인 컨테이너
@@ -52,23 +53,36 @@ class Login extends PureComponent {
             <RegularCard
                 cardTitle="로그인 하세요"
                 cardSubtitle="서비스 이용을 위해 로그인하세요"
-                style={{ border: '1px solid #ddd' }}
+                style={{ 
+                    border: '1px solid #ddd',
+                    marginTop: '30px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: '400px',
+                    height: '800px'
+                }} 
             >
-                <GoogleLogin
-                    clientId={WebServerConstant.GOOGLE_CLIENT_ID}
-                    render={(renderProps) => (
-                        <button
-                            onClick={renderProps.onClick}
-                            disabled={renderProps.disabled}
-                        >
-                            Google로 LogIn
-                        </button>
-                    )}
-                    onSuccess={this.responseGoogle}
-                    onFailure={this.responsefail}
-                    cookiePolicy={"single_host_origin"}
-                    isSignedIn={false}
-                />
+                <div style={{display: 'table', margin: 'auto'}}>
+                    <GoogleLogin
+                        clientId={WebServerConstant.GOOGLE_CLIENT_ID}
+                        render={(renderProps) => (
+                            <button
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                            >
+                                Google로 LogIn
+                            </button>
+                        )}
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responsefail}
+                        cookiePolicy={"single_host_origin"}
+                        isSignedIn={false}
+                        style={{
+                            display: 'table',
+                            margin: 'auto'
+                        }}
+                    />  
+                </div>
             </RegularCard>
         );
     }
