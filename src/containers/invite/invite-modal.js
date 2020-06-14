@@ -16,6 +16,7 @@ function InviteModal(){
             <button onClick={openModal}>채널 초대</button>
             {
                 modalVisible && <Modal
+                    height={"80vh"}
                     visible={modalVisible}
                     closable={true}
                     maskClosable={true}

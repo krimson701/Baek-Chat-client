@@ -6,12 +6,10 @@ import {
     TableRow,
     TableCell,
 } from '@material-ui/core';
-import {
-    getRelations
-} from '../../apis/relation';
-import {
-    inviteChannel
-} from '../../apis/chatting';
+import { getRelations } from '../../apis/relation';
+import { inviteChannel } from '../../apis/chatting';
+import FriendFilter from './friend-filter';
+import BaekToggle from '../../components/baek/baek-toggle';
 
 function DataTable({
     usePaging,
@@ -20,7 +18,9 @@ function DataTable({
     totalCount,
 }) {
 
-    const [friends, setFriends] = useState([{email: "Loading..."}]);
+    const [selected, setSelected] = useState([]);
+    const [friends, setFriends] = useState([{ email: "Loading..." }]);
+    const [keyword, setKeyword] = useState(false);
 
     /**
      * 파라미터 담을때 channelNo를 
@@ -29,26 +29,25 @@ function DataTable({
      * 이부분에 대해선 건회와 얘기를 해보자
      * @param {*} params 
      */
-    const inviteUsers = async(userNo) => {
+    const inviteUsers = async () => {
         try {
             if (!window.confirm("정말 채널로 초대 하시겠습니까?")) {
                 return;
             }
-            const userNos = [userNo];
             const params = {
                 channelNo: parseInt(localStorage.getItem("channelNo")),
-                users: userNos.toString()
+                users: selected.toString()
             }
             const data = await inviteChannel(params);
             alert("초대를 완료했습니다.");
-            
+
         } catch (e) {
             alert("초대를 실패했습니다!!");
             console.log(e);
         }
     }
 
-    const getFriendList = async() => { 
+    const getFriendList = async () => {
         try {
             const data = await getRelations('friend');
             const list = [];
@@ -62,24 +61,49 @@ function DataTable({
         }
     }
 
+    const handleChangeParams = (e) => {
+        e.preventDefault();
+        const value = e.currentTarget.value;
+        setKeyword(value);
+    }
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        console.log(keyword);
+        
+    }
+
     useEffect(() => {
         getFriendList();
     }, []);
-
-    return(
+    console.log(selected);
+    
+    return (
         <div>
+            <FriendFilter
+                onChange={handleChangeParams}
+                onSubmit={handleSearch}
+            />
             <Table>
                 <TableBody>
                     {friends.map(c => {
                         return (
-                            <TableRow onClick={() => inviteUsers(c.id)}>
+                            <TableRow>
                                 <TableCell>
-                                    <Button>{c.email}</Button>
+                                    <BaekToggle
+                                        handleToggleOn={() => setSelected([...selected, c.id])
+                                        }
+                                        handleToggleOff={() => setSelected(selected.filter(selectdNo => selectdNo !== c.id))}
+                                        text={c.email}
+                                        />
                                 </TableCell>
                             </TableRow>
                         )
                     })}
                 </TableBody>
+                <button onclick={() => inviteUsers()}>
+                    초대하기
+                </button>
             </Table>
         </div>
     )

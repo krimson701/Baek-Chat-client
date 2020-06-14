@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 function Modal({
+  height,
   className,
   onClose,
   maskClosable,
@@ -16,6 +17,9 @@ function Modal({
     }
   }
 
+  console.log(height);
+  
+
   return (
     <>
       <ModalOverlay visible={visible} />
@@ -25,7 +29,7 @@ function Modal({
         tabIndex="-1"
         visible={visible}
       >
-        <ModalInner tabIndex="0" className="modal-inner">
+        <ModalInner tabIndex="0" className="modal-inner" height={height} >
           {closable} {children}
         </ModalInner>
       </ModalWrapper>
@@ -34,7 +38,7 @@ function Modal({
 }
 
 Modal.propTypes = {
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 }
 
 const ModalWrapper = styled.div`
@@ -70,6 +74,8 @@ const ModalInner = styled.div`
   border-radius: 10px;
   width: 360px;
   max-width: 480px;
+  height: ${(props) => (props.height)};
+  overflow: auto;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;

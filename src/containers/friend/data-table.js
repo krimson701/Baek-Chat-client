@@ -6,12 +6,8 @@ import {
     TableRow,
     TableCell,
 } from '@material-ui/core';
-import {
-    postRelation
-} from '../../apis/relation';
-import {
-    getUser
-} from '../../apis/user';
+import { postRelation } from '../../apis/relation';
+import { getUser } from '../../apis/user';
 import FriendFilter from './friend-filter';
 
 function DataTable({
@@ -24,7 +20,7 @@ function DataTable({
     const [searchUser, setSearchUser] = useState(false);
     const [keyword, setKeyword] = useState(false);
 
-    const postFriend = async(relatedId) => { 
+    const postFriend = async (relatedId) => {
         try {
             if (!window.confirm("정말 친구등록 하시겠습니까?")) {
                 return;
@@ -50,13 +46,13 @@ function DataTable({
         else {
             return true;
         }
-    }          
+    }
 
-    const userSearch = async(userName) => { 
+    const userSearch = async (userName) => {
         try {
-            if(!CheckInput(userName))
+            if (!CheckInput(userName))
                 throw new Error("Unpassed REG");
-            
+
             const user = await getUser(userName.split('@')[0]);
             // 백 서버 '.com'과 같이 '.' 인식 문제로 인해 클라이언트에서 파싱
             setSearchUser(user);
@@ -80,7 +76,7 @@ function DataTable({
     useEffect(() => {
     }, []);
 
-    return(
+    return (
         <div>
             <FriendFilter
                 onChange={handleChangeParams}
