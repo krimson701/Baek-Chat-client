@@ -65,12 +65,7 @@ function DataTable({
         e.preventDefault();
         const value = e.currentTarget.value;
         setKeyword(value);
-    }
-
-    const handleSearch = (e) => {
-        e.preventDefault();
         console.log(keyword);
-        
     }
 
     useEffect(() => {
@@ -80,9 +75,17 @@ function DataTable({
     
     return (
         <div>
+            <div style={{ width: '320px', overflowX: 'scroll' }}>
+                <div style={{ display: 'inline-block' }}>
+                    {selected.map(c => {
+                        return (
+                            <button>{c.email}</button>
+                        )
+                    })}
+                </div>
+            </div>
             <FriendFilter
                 onChange={handleChangeParams}
-                onSubmit={handleSearch}
             />
             <Table>
                 <TableBody>
@@ -91,9 +94,9 @@ function DataTable({
                             <TableRow>
                                 <TableCell>
                                     <BaekToggle
-                                        handleToggleOn={() => setSelected([...selected, c.id])
+                                        handleToggleOn={() => setSelected([...selected, c])
                                         }
-                                        handleToggleOff={() => setSelected(selected.filter(selectdNo => selectdNo !== c.id))}
+                                        handleToggleOff={() => setSelected(selected.filter(selectdUser => selectdUser.id !== c.id))}
                                         text={c.email}
                                         />
                                 </TableCell>
@@ -101,7 +104,7 @@ function DataTable({
                         )
                     })}
                 </TableBody>
-                <button onclick={() => inviteUsers()}>
+                <button onClick={() => inviteUsers()}>
                     초대하기
                 </button>
             </Table>

@@ -11,10 +11,11 @@ const BaekInput = ({
   labelProps,
   success,
   onChange,
+  width,
   ...rest
 }) => {
   return (
-    <FormControl {...formControlProps}>
+    <FormControl {...formControlProps} style={{width: width}}>
       {label && (
         <InputLabel htmlFor={id} {...labelProps}>
           {label}
