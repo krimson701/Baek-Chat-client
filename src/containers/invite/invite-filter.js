@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import BaekInput from '../../components/baek/baek-input'
 
-const FriendFilter = ({
+const InviteFilter = ({
     onChange,
 }) => {
 
@@ -25,4 +24,4 @@ const FriendFilter = ({
     );
 };
 
-export default FriendFilter;
+export default InviteFilter;

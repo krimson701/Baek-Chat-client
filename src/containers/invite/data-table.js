@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { getRelations } from '../../apis/relation';
 import { inviteChannel } from '../../apis/chatting';
-import FriendFilter from './friend-filter';
+import InviteFilter from './invite-filter';
 import BaekToggle from '../../components/baek/baek-toggle';
 
 function DataTable({
@@ -20,7 +20,7 @@ function DataTable({
 
     const [selected, setSelected] = useState([]);
     const [friends, setFriends] = useState([{ email: "Loading..." }]);
-    const [keyword, setKeyword] = useState(false);
+    const [keyword, setKeyword] = useState();
 
     /**
      * 파라미터 담을때 channelNo를 
@@ -84,24 +84,26 @@ function DataTable({
                     })}
                 </div>
             </div>
-            <FriendFilter
+            <InviteFilter
                 onChange={handleChangeParams}
             />
             <Table>
                 <TableBody>
                     {friends.map(c => {
-                        return (
-                            <TableRow>
-                                <TableCell>
-                                    <BaekToggle
-                                        handleToggleOn={() => setSelected([...selected, c])
-                                        }
-                                        handleToggleOff={() => setSelected(selected.filter(selectdUser => selectdUser.id !== c.id))}
-                                        text={c.email}
+                        
+                        if(c.email.indexOf(keyword) == 0 || keyword === undefined){
+                            return (
+                                <TableRow>
+                                    <TableCell>
+                                        <BaekToggle
+                                            handleToggleOn={() => setSelected([...selected, c])}
+                                            handleToggleOff={() => setSelected(selected.filter(selectdUser => selectdUser.id !== c.id))}
+                                            text={c.email}
                                         />
-                                </TableCell>
-                            </TableRow>
-                        )
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        }
                     })}
                 </TableBody>
                 <button onClick={() => inviteUsers()}>
