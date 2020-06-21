@@ -170,7 +170,7 @@ const Navigation = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 0 20px 8px;
-  height: 90vh;
+  height: 100vh;
   overflow-x: hidden;
   ::placeholder {
     color: #b1b1b1;

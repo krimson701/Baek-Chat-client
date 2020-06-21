@@ -29,7 +29,7 @@ function DataTable({
                 relatedId: relatedId,
                 relation: 'friend'
             }
-            const result = await postRelation(params);
+            await postRelation(params);
             alert("친구 등록을 완료했습니다")
             closeModal();
         } catch (e) {

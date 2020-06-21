@@ -31,14 +31,14 @@ function DataTable({
      */
     const inviteUsers = async () => {
         try {
-            if (!window.confirm("정말 채널로 초대 하시겠습니까?")) {
+            if (!window.confirm("정말 채널로 초대 하시겠습니까?\n")) {
                 return;
             }
             const params = {
                 channelNo: parseInt(localStorage.getItem("channelNo")),
                 users: selected.toString()
             }
-            const data = await inviteChannel(params);
+            await inviteChannel(params);
             alert("초대를 완료했습니다.");
 
         } catch (e) {
@@ -75,7 +75,8 @@ function DataTable({
     
     return (
         <div>
-            <div style={{ width: '320px', overflowX: 'scroll' }}>
+            {/* TODO : style 부분 체크해서 양옆(X축) overflow 설정해야함. 지금은 style적용해도 안되므로 찾아봐야함 */}
+            <div style={{ width: '320px' }}>
                 <div style={{ display: 'inline-block' }}>
                     {selected.map(c => {
                         return (
@@ -90,8 +91,7 @@ function DataTable({
             <Table>
                 <TableBody>
                     {friends.map(c => {
-                        
-                        if(c.email.indexOf(keyword) == 0 || keyword === undefined){
+                        if(c.email.indexOf(keyword) === 0 || keyword === undefined){
                             return (
                                 <TableRow>
                                     <TableCell>
@@ -106,9 +106,9 @@ function DataTable({
                         }
                     })}
                 </TableBody>
-                <button onClick={() => inviteUsers()}>
+                <Button onClick={() => inviteUsers()}>
                     초대하기
-                </button>
+                </Button>
             </Table>
         </div>
     )
@@ -119,14 +119,15 @@ export default DataTable;
 
 const Button = styled.button`
   border: 0;
-  width: 100%;
-  height: 50px;
+  width: 75px;
+  height: 35px;
   text-decoration: none;
   font-weight: bold;
   padding: 6px 8px;
-  font-size: 14px;
+  font-size: 12px;
+  float: right;
   color: white;
-  background-color: #00567f;
+  background-color: green;
   border-radius: 4px;
   margin: 4px;
   cursor: pointer;

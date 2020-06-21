@@ -5,13 +5,14 @@ import AuthorizedRoutes from './routes/authorized-routes';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Navbar from './components/navbar';
+import Sidebar from './components/sidebar';
 import * as actions from './actions'
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-
+    
     /**
      * 로컬스토리지에 userInfo가 있으면 setFlag = 로그인
      */
@@ -35,6 +36,7 @@ class App extends React.Component {
     return (
       <>
         <RootContainer>
+          <Sidebar />
           <Navbar />
           <Main>
             <div>
@@ -56,6 +58,7 @@ const Main = styled.main`
   width: calc(100vw - 200px);
   height: 100%;
 `;
+
 const mapStateToProp = (state) => {
   return {
     flag: state.userReducer.flag
