@@ -92,10 +92,11 @@ class Chatroom extends React.Component {
           onSendMessage={this.sendMessage} connected={this.state.clientConnected} />
 
         <SockJsClient url={ wsSourceUrl } topics={["/topic/public/"+this.state.channelNo]}
+          subscribeHeaders={{userNo: this.userId, channelNo: this.channelNo}}
           onMessage={ this.onMessageReceive } ref={ (client) => { this.clientRef = client }}
           onConnect={ () => {this.setState({ clientConnected: true }) } }
           onDisconnect={ () => { this.setState({ clientConnected: false }) } }
-          debug={ false } style={[{width:'100%', height:'100%'}]}/>
+          debug={ true } style={[{width:'100%', height:'100%'}]}/>
       </>
     );
   }

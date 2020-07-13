@@ -68,7 +68,8 @@ class NavBar extends PureComponent {
             const list = await getChannelList();
             
             for(var i in list) {
-
+                console.log(list[i]);
+                
                 this.setState({
                     navItems: {
                         ...this.state.navItems,
